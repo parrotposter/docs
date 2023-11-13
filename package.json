@@ -1,0 +1,14 @@
+{
+	"name": "docs",
+	"version": "1.0.0",
+	"description": "ParrotPoster service docs",
+	"scripts": {
+		"docs:dev": "vuepress dev docs --open",
+		"docs:build": "vuepress build docs"
+	},
+	"author": "ParrotPoster",
+	"license": "MIT",
+	"devDependencies": {
+		"vuepress": "^2.0.0-beta.68"
+	}
+}
