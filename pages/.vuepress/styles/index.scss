@@ -1,0 +1,15 @@
+:root {
+  // brand colors
+  --c-brand: #1fa2ff;
+  --c-brand-light: #52b7ff;
+}
+
+html.dark {
+  // brand colors
+  --c-brand: #1fa2ff;
+  --c-brand-light: #0089eb;
+}
+
+.vp-tab.active {
+	background: inherit;
+}

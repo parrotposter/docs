@@ -4,11 +4,12 @@ import { head } from './configs/head'
 import { sidebarEn, sidebarRu } from './configs/sidebar'
 
 export default defineUserConfig({
-	base: '/pp-docs/',
+	// base: '/pp-docs/',
+	pagePatterns: ['**/*.md', '!**/README.md', '!.vuepress', '!node_modules'],
 	head,
 	lang: 'en',
 	locales: {
-		'/en/': {
+		'/': {
 			lang: 'en',
 			title: 'ParrotPoster',
 			description: 'Social network auto-publishing service from Wordpress, Bitrix and other'
@@ -23,7 +24,7 @@ export default defineUserConfig({
 		logo: '/images/logo.png',
 		contributors: false,
 		locales: {
-			'/en/': {
+			'/': {
 				selectLanguageName: 'English',
 				navbar: [
 					{

@@ -4,9 +4,9 @@ export const sidebarEn: SidebarConfig = {
 	'/': [
 		{
 			text: 'ParrotPoster',
-			link: '/en/',
+			link: '/',
 			children: [
-				'/en/socials/readme.md'
+				'/socials/readme.md'
 			]
 		}
 	]
