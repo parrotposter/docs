@@ -5,7 +5,7 @@ import { sidebarEn, sidebarRu } from './configs/sidebar'
 
 export default defineUserConfig({
 	// base: '/pp-docs/',
-	pagePatterns: ['**/*.md', '!**/README.md', '!.vuepress', '!node_modules'],
+	pagePatterns: ['**/*.md', '!**/README.md', '!**/readme.md', '!.vuepress', '!node_modules'],
 	head,
 	lang: 'en',
 	locales: {

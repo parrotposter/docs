@@ -1,13 +1,13 @@
 import type { SidebarConfig } from '@vuepress/theme-default'
+import { pages } from './helpers'
 
 export const sidebarEn: SidebarConfig = {
 	'/': [
+		'/',
 		{
-			text: 'ParrotPoster',
-			link: '/',
-			children: [
-				'/socials/readme.md'
-			]
-		}
+			text: 'Connect socials',
+			link: '/socials.md',
+			children: pages('/socials/')
+		},
 	]
 }

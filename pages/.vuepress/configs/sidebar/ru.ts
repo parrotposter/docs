@@ -1,4 +1,5 @@
 import type { SidebarConfig } from '@vuepress/theme-default'
+import { pages } from './helpers'
 
 export const sidebarRu: SidebarConfig = {
 	'/ru/': [
@@ -6,10 +7,7 @@ export const sidebarRu: SidebarConfig = {
 		{
 			text: 'Подключение соцсетей',
 			link: '/ru/socials.md',
-			children: [
-				'/ru/socials/vk.md',
-				'/ru/socials/tg.md',
-			]
+			children: pages('/ru/socials/')
 		},
 	]
 }

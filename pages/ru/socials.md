@@ -4,12 +4,8 @@
 
 * [Подключить ВКонтакте](./socials/vk.md)
 * [Подключить Telegram](./socials/tg.md)
-
-## Facebook <sup>[*](#fb_rf)</sup>
-
-## Instagram <sup>[*](#fb_rf)</sup>
-
-## Одноклассники
-
+* [Подключить Facebook <sup><a href="#fb_rf">*</a></sup>](./socials/fb.md)
+* [Подключить Instagram <sup><a href="#fb_rf">*</a></sup>](./socials/insta.md)
+* [Подключить Одноклассники](./socials/ok.md)
 
 <a name="fb_rf">*</a> Facebook и Instagram признаны экстремистрими на территории РФ
