@@ -1,0 +1,21 @@
+# ######## #
+# folders  #
+# ######## #
+.git
+node_modules
+/.dist
+
+# ######## #
+# files    #
+# ######## #
+
+# ci-cd
+Dockerfile
+Jenkinsfile
+stack.yml
+
+# other
+Makefile
+Justfile
+README.md
+.gitignore
