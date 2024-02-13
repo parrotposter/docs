@@ -10,6 +10,11 @@ html.dark {
   --c-brand-light: #0089eb;
 }
 
+.navbar {
+	backdrop-filter: blur(14px);
+	background-color: transparent;
+}
+
 .vp-tab.active {
 	background: inherit;
 }

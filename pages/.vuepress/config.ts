@@ -39,6 +39,7 @@ export default defineUserConfig({
 					}
 				],
 				sidebar: sidebarEn,
+				editLinkText: 'Edit on Github'
 			},
 			'/ru/': {
 				selectLanguageName: 'Русский',
@@ -60,7 +61,7 @@ export default defineUserConfig({
 				toggleColorMode: 'Переключить тему',
 				lastUpdated: true,
 				lastUpdatedText: 'Последнее обновление',
-				editLinkText: 'Изменить эту страницу'
+				editLinkText: 'Редактировать в Github'
 			},
 		},
 		themePlugins: {
