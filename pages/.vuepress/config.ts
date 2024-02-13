@@ -71,6 +71,7 @@ export default defineUserConfig({
 	plugins: [
 		mdEnhancePlugin({
 			tabs: true,
+			include: true,
 		}),
 		photoSwipePlugin({
 			scrollToClose: false,

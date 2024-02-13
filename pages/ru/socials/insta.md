@@ -1,6 +1,0 @@
----
-title: Instagram
----
-
-# Подключение Instagram
-

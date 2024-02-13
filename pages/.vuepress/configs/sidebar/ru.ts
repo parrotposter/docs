@@ -7,7 +7,13 @@ export const sidebarRu: SidebarConfig = {
 		{
 			text: 'Подключение соцсетей',
 			link: '/ru/socials.md',
-			children: pages('/ru/socials/')
+			children: [
+				'/ru/socials/vk/',
+				'/ru/socials/tg/',
+				'/ru/socials/fb/',
+				'/ru/socials/insta/',
+				'/ru/socials/ok/',
+			]
 		},
 	],
 	'/ru/bitrix/': [
@@ -15,7 +21,13 @@ export const sidebarRu: SidebarConfig = {
 		{
 			text: 'Подключение соцсетей',
 			link: '/ru/bitrix/socials/',
-			children: pages('/ru/bitrix/socials/')
+			children: [
+				'/ru/bitrix/socials/vk/',
+				'/ru/bitrix/socials/tg/',
+				'/ru/bitrix/socials/fb/',
+				'/ru/bitrix/socials/insta/',
+				'/ru/bitrix/socials/ok/',
+			]
 		},
 	]
 }
