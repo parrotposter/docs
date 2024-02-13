@@ -7,7 +7,7 @@ export const head: HeadConfig[] = [
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '16x16',
-			href: `/images/favicon/favicon-16x16.png`,
+			href: `/favicon/favicon-16x16.png`,
 		},
 	],
 	[
@@ -16,7 +16,7 @@ export const head: HeadConfig[] = [
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '32x32',
-			href: `/images/favicon/favicon-32x32.png`,
+			href: `/favicon/favicon-32x32.png`,
 		},
 	],
 	['link', { rel: 'manifest', href: '/site.webmanifest' }],
@@ -25,6 +25,6 @@ export const head: HeadConfig[] = [
 	['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
 	[
 		'link',
-		{ rel: 'apple-touch-icon', href: `/images/favicon/apple-touch-icon.png` },
+		{ rel: 'apple-touch-icon', href: `/favicon/apple-touch-icon.png` },
 	],
 ]

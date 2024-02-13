@@ -1,7 +1,10 @@
-import { defaultTheme, defineUserConfig } from 'vuepress'
+import { defineUserConfig } from 'vuepress'
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 import { head } from './configs/head'
 import { sidebarEn, sidebarRu } from './configs/sidebar'
+import { defaultTheme } from '@vuepress/theme-default';
+import { viteBundler } from '@vuepress/bundler-vite'
+import { photoSwipePlugin } from '@vuepress/plugin-photo-swipe';
 
 export default defineUserConfig({
 	// base: '/pp-docs/',
@@ -40,6 +43,13 @@ export default defineUserConfig({
 					{
 						text: 'Сайт',
 						link: 'https://parrotposter.com'
+					},
+					{
+						text: 'Плагины',
+						children: [
+							'/ru/bitrix/',
+							'/ru/wordpress/',
+						]
 					}
 				],
 				sidebar: sidebarRu,
@@ -48,11 +58,21 @@ export default defineUserConfig({
 				lastUpdated: true,
 				lastUpdatedText: 'Последнее обновление',
 			},
-		}
+		},
+		themePlugins: {
+			mediumZoom: false,
+		},
 	}),
 	plugins: [
 		mdEnhancePlugin({
 			tabs: true,
-		})
-	]
+		}),
+		photoSwipePlugin({
+			scrollToClose: false,
+		}),
+	],
+	bundler: viteBundler({
+		viteOptions: {},
+		vuePluginOptions: {},
+	})
 })

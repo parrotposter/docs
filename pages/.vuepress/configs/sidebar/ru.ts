@@ -9,5 +9,13 @@ export const sidebarRu: SidebarConfig = {
 			link: '/ru/socials.md',
 			children: pages('/ru/socials/')
 		},
+	],
+	'/ru/bitrix/': [
+		'/ru/bitrix/',
+		{
+			text: 'Подключение соцсетей',
+			link: '/ru/bitrix/socials/',
+			children: pages('/ru/bitrix/socials/')
+		},
 	]
 }

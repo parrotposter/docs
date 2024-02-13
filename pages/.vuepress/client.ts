@@ -1,14 +1,10 @@
-import { defineClientConfig } from '@vuepress/client'
+import { definePhotoSwipeConfig } from '@vuepress/plugin-photo-swipe/client'
 
-const defaultHome = '/en/';
-
-export default defineClientConfig({
-	enhance({ router }) {
-		router.beforeEach((to, _from, next) => {
-			if (to.path === '/') {
-				// router.push(defaultHome);
-			}
-			next()
-		})
-	},
+definePhotoSwipeConfig({
+	gallery: '#gallery--zoom-transition',
+	showHideAnimationType: 'zoom',
+	imageClickAction: 'close',
+	tapAction: 'close',
 })
+
+export default {};

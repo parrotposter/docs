@@ -13,3 +13,7 @@ html.dark {
 .vp-tab.active {
 	background: inherit;
 }
+
+.pswp__container {
+	transition: all 0.3s ease;
+}
