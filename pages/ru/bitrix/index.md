@@ -49,10 +49,9 @@ title: Модуль для 1С-Битрикс
 
 Тем не менее, чтобы узнать подробнее про подключение соцсетей, перейдите к интересующей вас странице документации:
 
-- [ВК](./socials/1_vk.md)
-- [Telegram](./socials/2_tg.md)
-- [Facebook](./socials/3_fb.md)
-- [Instagram](./socials/4_insta.md)
-- [Одноклассники](./socials/5_ok.md)
-
+- [ВК](./socials/vk/)
+- [Telegram](./socials/tg/)
+- [Facebook](./socials/fb/)
+- [Instagram](./socials/insta/)
+- [Одноклассники](./socials/ok/)
 

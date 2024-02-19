@@ -7,7 +7,7 @@ import { viteBundler } from '@vuepress/bundler-vite'
 import { photoSwipePlugin } from '@vuepress/plugin-photo-swipe';
 
 export default defineUserConfig({
-	base: '/docs/',
+	// base: '/docs/',
 	pagePatterns: ['**/*.md', '!**/README.md', '!**/readme.md', '!.vuepress', '!node_modules'],
 	head,
 	lang: 'en',
@@ -45,16 +45,16 @@ export default defineUserConfig({
 				selectLanguageName: 'Русский',
 				navbar: [
 					{
-						text: 'Сайт',
-						link: 'https://parrotposter.com'
-					},
-					{
 						text: 'Плагины',
 						children: [
 							'/ru/bitrix/',
 							'/ru/wordpress/',
 						]
-					}
+					},
+					{
+						text: 'Сайт',
+						link: 'https://parrotposter.com'
+					},
 				],
 				sidebar: sidebarRu,
 				openInNewWindow: 'Открыть в новой вкладке',
