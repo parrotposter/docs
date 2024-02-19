@@ -5,6 +5,7 @@ RUN npm ci
 
 FROM deps as builder
 COPY . .
+ENV BASE_URL /docs/
 RUN npm run docs:build
 
 FROM nginx:1.21.3-alpine
