@@ -3,6 +3,8 @@ version: '3.8'
 services:
   docs:
     image: ${IMAGE:-docs}:${TAG:-latest}
+    env:
+      BASE_URL: /docs/
     deploy:
       replicas: 1
       restart_policy: {condition: on-failure}

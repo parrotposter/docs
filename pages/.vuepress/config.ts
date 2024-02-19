@@ -7,7 +7,8 @@ import { viteBundler } from '@vuepress/bundler-vite'
 import { photoSwipePlugin } from '@vuepress/plugin-photo-swipe';
 
 export default defineUserConfig({
-	// base: '/docs/',
+	// @ts-ignore
+	base: process.env.BASE_URL || '/',
 	pagePatterns: ['**/*.md', '!**/README.md', '!**/readme.md', '!.vuepress', '!node_modules'],
 	head,
 	lang: 'en',
