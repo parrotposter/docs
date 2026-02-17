@@ -46,6 +46,10 @@ export default defineUserConfig({
 				selectLanguageName: 'Русский',
 				navbar: [
 					{
+						text: 'API',
+						link: '/ru/api/'
+					},
+					{
 						text: 'Плагины',
 						children: [
 							'/ru/bitrix/',
@@ -58,6 +62,7 @@ export default defineUserConfig({
 					},
 				],
 				sidebar: sidebarRu,
+				sidebarDepth: 1,
 				openInNewWindow: 'Открыть в новой вкладке',
 				toggleColorMode: 'Переключить тему',
 				lastUpdated: true,

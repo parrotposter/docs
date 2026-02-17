@@ -42,5 +42,27 @@ export const sidebarRu: SidebarConfig = {
 				'/ru/wordpress/socials/ok/',
 			]
 		},
+	],
+	'/ru/api/': [
+		'/ru/api/',
+		'/ru/api/quick-start.md',
+		{
+			text: 'Методы API',
+			collapsible: true,
+			children: [
+				'/ru/api/auth.md',
+				'/ru/api/socials.md',
+				{
+					text: 'Посты',
+					collapsible: true,
+					children: [
+						'/ru/api/posts/item.md',
+						'/ru/api/posts/get.md',
+						'/ru/api/posts/create.md',
+						// '/ru/api/posts/update.md',
+					]
+				},
+			]
+		},
 	]
 }

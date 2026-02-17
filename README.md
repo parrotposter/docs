@@ -2,6 +2,8 @@
 
 Here is the documentation for the [parrotposter.com](https://parrotposter.com) service.
 
+Visit [docs](https://parrotposter.com/docs).
+
 ## Contribution
 
 Any contribution is welcome, please open issues or PRs

@@ -1,4 +1,4 @@
-dev:
+run:
 	npm run docs:dev
 
 build:
