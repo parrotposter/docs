@@ -56,10 +56,12 @@ export const sidebarRu: SidebarConfig = {
 					text: 'Посты',
 					collapsible: true,
 					children: [
+						'/ru/api/posts/index.md',
 						'/ru/api/posts/item.md',
 						'/ru/api/posts/get.md',
 						'/ru/api/posts/create.md',
-						// '/ru/api/posts/update.md',
+						'/ru/api/posts/update.md',
+						'/ru/api/posts/delete.md',
 					]
 				},
 			]
