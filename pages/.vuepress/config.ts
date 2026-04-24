@@ -1,19 +1,30 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineUserConfig } from 'vuepress'
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
+import { markdownIncludePlugin } from '@vuepress/plugin-markdown-include'
 import { head } from './configs/head'
 import { sidebarEn, sidebarRu } from './configs/sidebar'
 import { defaultTheme } from '@vuepress/theme-default';
 import { viteBundler } from '@vuepress/bundler-vite'
 import { photoSwipePlugin } from '@vuepress/plugin-photo-swipe';
+import { redirectPlugin } from '@vuepress/plugin-redirect';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineUserConfig({
+	alias: {
+		'@theme/useNavbarSelectLanguage': path.resolve(
+			__dirname,
+			'./composables/useNavbarSelectLanguage.ts',
+		),
+	},
 	// @ts-ignore
 	base: process.env.BASE_URL || '/',
 	pagePatterns: ['**/*.md', '!**/README.md', '!**/readme.md', '!.vuepress', '!node_modules'],
 	head,
 	lang: 'en',
 	locales: {
-		'/': {
+		'/en/': {
 			lang: 'en',
 			title: 'ParrotPoster',
 			description: 'Social network auto-publishing service from Wordpress, Bitrix and other'
@@ -31,16 +42,29 @@ export default defineUserConfig({
 		docsBranch: 'master',
 		docsDir: 'pages',
 		locales: {
-			'/': {
+			'/en/': {
 				selectLanguageName: 'English',
 				navbar: [
 					{
+						text: 'API',
+						link: '/en/api/',
+					},
+					{
+						text: 'Plugins',
+						children: ['/en/wordpress/'],
+					},
+					{
 						text: 'Site',
-						link: 'https://parrotposter.com'
-					}
+						link: 'https://parrotposter.com',
+					},
 				],
 				sidebar: sidebarEn,
-				editLinkText: 'Edit on Github'
+				sidebarDepth: 1,
+				openInNewWindow: 'Open in new tab',
+				toggleColorMode: 'Toggle color mode',
+				lastUpdated: true,
+				lastUpdatedText: 'Last updated',
+				editLinkText: 'Edit on GitHub',
 			},
 			'/ru/': {
 				selectLanguageName: 'Русский',
@@ -75,9 +99,12 @@ export default defineUserConfig({
 		},
 	}),
 	plugins: [
-		mdEnhancePlugin({
-			tabs: true,
-			include: true,
+		redirectPlugin({
+			autoLocale: true,
+		}),
+		markdownIncludePlugin({
+			deep: true,
+			useComment: true,
 		}),
 		photoSwipePlugin({
 			scrollToClose: false,

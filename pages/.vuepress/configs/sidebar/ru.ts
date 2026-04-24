@@ -12,6 +12,8 @@ export const sidebarRu: SidebarConfig = {
 				'/ru/socials/fb/',
 				'/ru/socials/insta/',
 				'/ru/socials/ok/',
+				'/ru/socials/max/',
+				'/ru/socials/dzen/',
 			]
 		},
 	],
@@ -26,6 +28,8 @@ export const sidebarRu: SidebarConfig = {
 				'/ru/bitrix/socials/fb/',
 				'/ru/bitrix/socials/insta/',
 				'/ru/bitrix/socials/ok/',
+				'/ru/bitrix/socials/max/',
+				'/ru/bitrix/socials/dzen/',
 			]
 		},
 	],
@@ -40,6 +44,8 @@ export const sidebarRu: SidebarConfig = {
 				'/ru/wordpress/socials/fb/',
 				'/ru/wordpress/socials/insta/',
 				'/ru/wordpress/socials/ok/',
+				'/ru/wordpress/socials/max/',
+				'/ru/wordpress/socials/dzen/',
 			]
 		},
 	],

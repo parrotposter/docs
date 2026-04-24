@@ -9,11 +9,10 @@ title: ВК
 Чтобы подключить ВК, перейдите на страницу добавления соцсетей.
 Далее нажмите на кнопку "Подключить".
 
-![Добавление](./vk.png)
+![Добавление](/images/socials/vk/wp-0.png)
 
 <!-- @include: ../../../socials/vk/index.md#common-auth -->
 
 ## Возможные проблемы
 
 <!-- @include: ../../../socials/vk/index.md#common-errors -->
-

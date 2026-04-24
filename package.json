@@ -9,11 +9,13 @@
 	"author": "ParrotPoster",
 	"license": "MIT",
 	"devDependencies": {
-		"@vuepress/bundler-vite": "^2.0.0-rc.7",
-		"@vuepress/plugin-photo-swipe": "^2.0.0-rc.14",
-		"@vuepress/plugin-register-components": "^2.0.0-rc.14",
-		"@vuepress/theme-default": "^2.0.0-rc.14",
-		"vuepress": "^2.0.0-rc.7",
-		"vuepress-plugin-md-enhance": "^2.0.0-rc.23"
+		"@vuepress/bundler-vite": "^2.0.0-rc.28",
+		"@vuepress/plugin-markdown-include": "^2.0.0-rc.128",
+		"@vuepress/plugin-photo-swipe": "^2.0.0-rc.128",
+		"@vuepress/plugin-redirect": "^2.0.0-rc.128",
+		"@vuepress/plugin-register-components": "^2.0.0-rc.128",
+		"@vuepress/theme-default": "^2.0.0-rc.128",
+		"sass-embedded": "^1.99.0",
+		"vuepress": "^2.0.0-rc.28"
 	}
 }
