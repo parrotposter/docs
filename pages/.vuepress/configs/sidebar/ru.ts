@@ -4,6 +4,17 @@ export const sidebarRu: SidebarConfig = {
 	'/ru/': [
 		'/ru/',
 		{
+			text: 'Автоматизация',
+			collapsible: true,
+			children: [
+				'/ru/automation/',
+				'/ru/automation/quick-start.md',
+				'/ru/automation/modes.md',
+				'/ru/automation/edit.md',
+				'/ru/automation/troubleshooting.md',
+			]
+		},
+		{
 			text: 'Подключение соцсетей',
 			collapsible: true,
 			children: [
