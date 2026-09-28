@@ -8,52 +8,52 @@ title: Max
 The Max messenger integration is in beta. If something goes wrong, email [support@parrotposter.com](mailto:support@parrotposter.com).
 :::
 
-In ParrotPoster you can connect a Max channel or group in **two ways**:
+You can connect a Max channel or group in **two ways**:
 
-1. **Use the ParrotPoster bot** — add our bot to the channel as an administrator and enter the channel/group link or ID.
-2. **Use your own bot** — create a bot in the [Max partner portal](https://business.max.ru), pass moderation, connect it to the channel; in the service you enter the token and pick the channel from the list.
+1. **Use the ParrotPoster bot** — generate a confirmation code, bind it in our bot, add the bot as an administrator, then enter the channel link or [numeric ID](#max-numeric-id).
+2. **Use your own bot** — create a bot in the [Max partner portal](https://business.max.ru), pass moderation, then enter the token and the **[numeric chat ID](#max-numeric-id)**. Automatic channel lists are no longer available.
 
 <!-- #region max-instructions -->
 
 ## Option 1: ParrotPoster bot
 
-### Add the bot to the channel
+### Confirmation code
 
-1. Start a chat with the [ParrotPoster bot](https://max.ru/id745313661965_1_bot) so it appears in your Max contacts.
-2. **Add** the ParrotPoster bot to your channel: first as a **member**, then grant **administrator** rights.
+1. The Max connection dialog creates a 15-minute code and an “Open ParrotPoster bot” link.
+2. Open the [ParrotPoster bot](https://max.ru/id745313661965_1_bot) or send the code in a direct chat so Max binds the code to your account.
+3. **Add** the ParrotPoster bot to the channel as a **member**, then grant **administrator** rights. You must be an administrator yourself.
 
-### Connect the channel in the service
+### Connect the channel
 
-1. **Copy** your channel link or **ID** and paste it into the “Paste channel/group link or ID” field in the Max connection dialog.
-2. Click **Connect**. The channel should appear in your accounts list; you can then publish posts. If not, double-check the steps above and try again.
+1. Paste the channel **link or [numeric ID](#max-numeric-id)**.
+2. Click **Connect** only after the code is bound and the bot is an administrator.
+3. If the channel is not found by link, remove the bot from the channel and add it again, or use the [numeric ID](#max-numeric-id).
 
 ## Option 2: Your own bot
 
 ### Creating a bot
 
-1. Open the [Max partner portal](https://business.max.ru) and register as a legal entity if you have not already.
-2. When the dashboard is ready, click [Add bot](https://business.max.ru/self/#/create-bot) (you can open this link directly).
-3. **Fill in** the bot details: name, phone, website link, description, and logo.
-4. Click **Create**. After **moderation**, the bot will be ready to use.
+1. Open the [Max partner portal](https://business.max.ru) and register as a legal entity if needed.
+2. When the dashboard is ready, click [Add bot](https://business.max.ru/self/#/create-bot).
+3. Fill in the bot details and click **Create**. After **moderation**, the bot is ready.
 
-### Adding the channel and token
+### Token and numeric chat ID
 
-1. **Start a chat with your bot** so it appears in contacts: copy the bot ID (nickname), search for it in Max — the bot should show up in results.
-2. Open the channel and **add** your bot as a **member** first, then make it an **administrator**.
-3. On the [bot page](https://business.max.ru/self/#/chat-bots), under **Integration**, click **Get token**. Copy the token and paste it into “Paste your bot token”.
-4. **After pasting** the token, the list of channels/groups where the bot is connected loads automatically. Select the right entry. If the list is empty, ensure the bot is in the channel and the token is correct, then paste the token again.
+1. Start a chat with the bot, then add it to the channel as a member and administrator.
+2. On the [bot page](https://business.max.ru/self/#/chat-bots), under Integration, click **Get token**.
+3. In ParrotPoster paste the token and the **[numeric chat ID](#max-numeric-id)**. Channels are no longer listed automatically from the token.
+
+<h2 id="max-numeric-id">How to get the numeric ID</h2>
+
+The numeric ID of a channel or group is a long number, sometimes with a minus sign, for example `123456789`. You can paste it instead of a link.
+
+1. Open the channel or group in the Max app or on [web.max.ru](https://web.max.ru) and copy its link.
+2. If the address looks like `https://max.ru/123456789` or `https://web.max.ru/123456789`, that trailing number is the ID. Paste **only the number** into ParrotPoster.
+3. If the link is a username (`https://max.ru/mychannel`) or an invite (`https://max.ru/join/...`), it does not contain the ID. With the ParrotPoster bot a public link is enough; with your own bot you still need the numeric ID.
+4. **Your own bot:** MAX does not list the bot’s channels. After you add the bot to the chat, open the [bot page](https://business.max.ru/self/#/chat-bots), Integration section, and copy the numeric ID from the “bot added” event.
 
 <!-- #endregion max-instructions -->
 
-## Connecting in ParrotPoster
-
-1. In the service, open **Accounts** and click **Connect** for the **Max** messenger.
-2. In the dialog, under “Choose connection method”, select **Use ParrotPoster bot** or **Use your own bot**.
-3. For the ParrotPoster bot, enter the channel/group link or ID and click **Connect**.
-4. For your own bot, paste the token (spaces may be removed), wait for the channel list, select the channel, and click **Connect**.
-
-You can click **Instructions** in the dialog for a short recap of the same steps.
-
 ## Support
 
-If you have trouble connecting Max, email **support@parrotposter.com** — we will help.
+If you have trouble connecting Max, email **support@parrotposter.com**.
