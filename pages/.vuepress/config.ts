@@ -70,6 +70,10 @@ export default defineUserConfig({
 				selectLanguageName: 'Русский',
 				navbar: [
 					{
+						text: 'Автоматизация',
+						link: '/ru/automation/'
+					},
+					{
 						text: 'API',
 						link: '/ru/api/'
 					},
