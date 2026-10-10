@@ -1,12 +1,100 @@
 # Authentication
 
-Protected API methods require authentication. ParrotPoster uses a token-based flow: you obtain a token with the `login` mutation and send it with every subsequent request.
+API methods that work with your data require a token. Send the token in the HTTP header:
 
-## Obtaining a token: `login` mutation
+```text
+Authorization: Bearer your_token
+```
 
-The only unauthenticated API operation is the `login` mutation. It accepts user credentials and returns an access token.
+Without a valid token, protected methods return an `unauthorized` error (see [Errors](./errors.md)).
 
-### Request
+There are two ways to get a token:
+
+| Method | When to use |
+| ------ | ----------- |
+| **API token** from the web app (recommended) | Scripts, integrations, server-side jobs. No need to store your password; the token can be restricted to read-only mode and revoked at any time |
+| The **`login`** mutation | When you cannot use the web app during setup, or you need to obtain a token programmatically with an email and password |
+
+## API tokens (recommended)
+
+### Creating in the web app
+
+1. Open **Settings → API tokens**.
+2. Click **Create token**.
+3. Enter the **Token name** (required, up to 128 characters).
+4. Optionally turn on **Read-only (disallows mutations)**: with such a token queries (`query`) work, and any mutation is rejected.
+5. Copy the secret and store it.
+
+::: warning The secret is shown only once
+It cannot be shown again. If the secret is lost, revoke the token and create a new one.
+:::
+
+<!-- screenshot: api-tokens-list | Settings → API tokens: token list with the "Read-only" badge, last-used date, and the "Rename" and "Revoke" buttons -->
+
+The token list shows the name, creation date, and last-used time. You can **Rename** or **Revoke** a token. A revoked token stops working.
+
+### Creating via the API
+
+You can also create a token with the `createApiToken` mutation (like any mutation, it is not available with a read-only token):
+
+```graphql
+mutation {
+  createApiToken(name: "Publishing script", readOnly: false) {
+    tokenValue
+    token {
+      id
+      name
+      readOnly
+      active
+      createdAt
+    }
+  }
+}
+```
+
+| Argument   | Type       | Description                                             |
+| ---------- | ---------- | ------------------------------------------------------- |
+| `name`     | String!    | Token name, up to 128 characters                        |
+| `readOnly` | Boolean!   | `true` — the token cannot run mutations                 |
+
+In the response, `tokenValue` is the secret (**shown only in this response**) and `token` is the token metadata.
+
+List your tokens and manage them:
+
+```graphql
+query {
+  apiTokens {
+    id
+    name
+    readOnly
+    active
+    createdAt
+    lastUsedAt
+  }
+}
+```
+
+```graphql
+mutation {
+  updateApiToken(tokenId: "token_id", name: "New name")
+}
+```
+
+```graphql
+mutation {
+  revokeApiToken(tokenId: "token_id")
+}
+```
+
+The secret is never returned by `apiTokens`.
+
+### Rate limit
+
+Requests made with an API token are rate limited: by default 600 requests per minute per token (the window is a UTC calendar minute). When exceeded, the server responds with HTTP status `429 Too Many Requests`; retry in the next minute.
+
+## Alternative: the `login` mutation
+
+The `login` mutation does not need a token and returns a token for your ParrotPoster email and password.
 
 ```graphql
 mutation {
@@ -18,98 +106,87 @@ mutation {
     }
   ) {
     token
+    userId
   }
 }
 ```
 
-**`input` fields:**
+| `input` field | Type      | Required | Description                                                                |
+| ------------- | --------- | -------- | -------------------------------------------------------------------------- |
+| `username`    | String!   | Yes      | The email used at registration                                              |
+| `password`    | String!   | Yes      | Password                                                                    |
+| `from`        | Platform! | Yes      | Where the sign-in comes from. Use `FRONT` for your own integrations        |
+| `fromSite`    | String    | No       | Site address (used by plugins)                                              |
+| `lang`        | String    | No       | User interface language                                                     |
 
-| Field        | Type   | Required | Description                                      |
-| ------------ | ------ | -------- | ------------------------------------------------ |
-| `username`   | String | Yes      | Email used when registering in ParrotPoster      |
-| `password`   | String | Yes      | Account password                                 |
-| `from`       | Enum   | Yes      | Always use `FRONT`                             |
+Allowed `Platform` values: `FRONT`, `BITRIX`, `BITRIX_24`, `WORDPRESS`. Values other than `FRONT` are meant for the official plugins.
 
-### Response
-
-On success the API returns an object with a `token` field:
+**Response:**
 
 ```json
 {
   "data": {
     "login": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      "token": "your_token",
+      "userId": "user_id"
     }
   }
 }
 ```
 
-### Authentication errors
+Pass a `login` token the same way as an API token: `Authorization: Bearer <token>`.
 
-If credentials are wrong, the API returns a standard GraphQL error:
+### How a `login` token behaves
 
-```json
-{
-  "errors": [
-    {
-      "message": "User not found",
-      "extensions": {
-        "code": "user_not_found"
-      }
-    }
-  ]
+- The token has no expiry: it works until it is revoked.
+- Such a token appears in **Settings → Sessions** (where you can end the session) and is revoked with the `revokeToken` mutation. Called without arguments, it revokes the token sent in the header:
+
+```graphql
+mutation {
+  revokeToken
 }
 ```
 
-## Using the token
+- The limit of 600 requests per minute applies only to API tokens; it does not apply to tokens from `login`.
+- A `login` token has full access: there is no read-only mode for it. If you need restricted access, use an API token.
 
-Send the token on every request to protected operations in the `Authorization` header using the `Bearer` scheme:
+::: tip
+Do not keep your password in scripts. Create an API token — it can be revoked without changing your password.
+:::
 
-```
-Authorization: Bearer your_unique_access_token
-```
+## Storing the token
 
-### cURL example
+1. Store the token in a secure place (environment variables, CI secrets), not in a repository.
+2. Do not put the token in client-side code (JavaScript on site pages): the token gives access to your account.
+3. Create a separate token for each integration so you can revoke it independently of the others.
+
+## Examples
+
+### cURL
 
 ```bash
 curl -X POST https://parrotposter.com/api/graphql \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
+  -H "Authorization: Bearer your_token" \
   -H "Content-Type: application/json" \
   -d '{"query": "query { listSocialAccounts { id name } }"}'
 ```
 
-### PHP example (Yii2)
+### PHP
 
 ```php
-use yii\httpclient\Client;
-
-$client = new Client();
-$token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
-
-$response = $client->createRequest()
-    ->setMethod('POST')
-    ->setUrl('https://parrotposter.com/api/graphql')
-    ->addHeaders([
-        'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'application/json',
-    ])
-    ->setData([
-        'query' => '
-            query {
-                listSocialAccounts {
-                    id
-                    name
-                }
-            }
-        ',
-    ])
-    ->send();
+<?php
+$ch = curl_init('https://parrotposter.com/api/graphql');
+curl_setopt_array($ch, [
+    CURLOPT_POST => true,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $token,
+        'Content-Type: application/json',
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        'query' => 'query { listSocialAccounts { id name } }',
+    ]),
+]);
+$response = json_decode(curl_exec($ch), true);
+curl_close($ch);
 ```
-
-## Token lifetime
-
-Access tokens do not expire by time. For security:
-
-1. Store the token in a protected place (e.g. server-side config not exposed to the web).
-2. Do not embed the token in client-side JavaScript.
-3. To invalidate a token, change your ParrotPoster password — the old token stops working.

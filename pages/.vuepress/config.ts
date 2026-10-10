@@ -45,21 +45,15 @@ export default defineUserConfig({
 			'/en/': {
 				selectLanguageName: 'English',
 				navbar: [
-					{
-						text: 'API',
-						link: '/en/api/',
-					},
-					{
-						text: 'Plugins',
-						children: ['/en/wordpress/'],
-					},
-					{
-						text: 'Site',
-						link: 'https://parrotposter.com',
-					},
+					{ text: 'Getting started', link: '/en/start/' },
+					{ text: 'Accounts', link: '/en/accounts/' },
+					{ text: 'Posts', link: '/en/posts/' },
+					{ text: 'Automation', link: '/en/automation/' },
+					{ text: 'API', link: '/en/api/' },
+					{ text: 'Site', link: 'https://parrotposter.com' },
 				],
 				sidebar: sidebarEn,
-				sidebarDepth: 1,
+				sidebarDepth: 0,
 				openInNewWindow: 'Open in new tab',
 				toggleColorMode: 'Toggle color mode',
 				lastUpdated: true,
@@ -69,28 +63,15 @@ export default defineUserConfig({
 			'/ru/': {
 				selectLanguageName: 'Русский',
 				navbar: [
-					{
-						text: 'Автоматизация',
-						link: '/ru/automation/'
-					},
-					{
-						text: 'API',
-						link: '/ru/api/'
-					},
-					{
-						text: 'Плагины',
-						children: [
-							'/ru/bitrix/',
-							'/ru/wordpress/',
-						]
-					},
-					{
-						text: 'Сайт',
-						link: 'https://parrotposter.com'
-					},
+					{ text: 'Начало работы', link: '/ru/start/' },
+					{ text: 'Аккаунты', link: '/ru/accounts/' },
+					{ text: 'Публикации', link: '/ru/posts/' },
+					{ text: 'Автоматизация', link: '/ru/automation/' },
+					{ text: 'API', link: '/ru/api/' },
+					{ text: 'Сайт', link: 'https://parrotposter.com' },
 				],
 				sidebar: sidebarRu,
-				sidebarDepth: 1,
+				sidebarDepth: 0,
 				openInNewWindow: 'Открыть в новой вкладке',
 				toggleColorMode: 'Переключить тему',
 				lastUpdated: true,

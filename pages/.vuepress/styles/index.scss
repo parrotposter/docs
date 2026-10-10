@@ -1,13 +1,17 @@
 :root {
-  // brand colors
-  --c-brand: #1fa2ff;
-  --c-brand-light: #52b7ff;
+  // accent colors
+  --vp-c-accent: #1fa2ff;
+  --vp-c-accent-bg: #1fa2ff;
+  --vp-c-accent-hover: #52b7ff;
+  --vp-c-accent-soft: rgb(31 162 255 / 14%);
 }
 
-html.dark {
-  // brand colors
-  --c-brand: #1fa2ff;
-  --c-brand-light: #0089eb;
+[data-theme='dark'] {
+  // accent colors
+  --vp-c-accent: #1fa2ff;
+  --vp-c-accent-bg: #1fa2ff;
+  --vp-c-accent-hover: #52b7ff;
+  --vp-c-accent-soft: rgb(31 162 255 / 16%);
 }
 
 .navbar {
@@ -21,4 +25,73 @@ html.dark {
 
 .pswp__container {
 	transition: all 0.3s ease;
+}
+
+// Right-side "On this page" block (components/PageToc.vue).
+// Shown only when the viewport is wide enough to fit sidebar + content + toc.
+.page-toc {
+	display: none;
+}
+
+@media (min-width: 1400px) {
+	.vp-theme-container {
+		--page-toc-width: 14.5rem;
+		--page-toc-gap: 2rem;
+		--page-toc-edge: 1.5rem;
+	}
+
+	// Keep the article centered in the space between the two side rails.
+	// :has() avoids shifting pages where the TOC is disabled or too short.
+	.vp-page:has(> .page-toc) {
+		padding-inline-end: calc(
+			var(--page-toc-width) + var(--page-toc-gap) + var(--page-toc-edge)
+		);
+	}
+
+	.page-toc {
+		display: block;
+		position: fixed;
+		top: calc(var(--navbar-height) + 2rem);
+		right: var(--page-toc-edge);
+		width: var(--page-toc-width);
+		box-sizing: border-box;
+		max-height: calc(100vh - var(--navbar-height) - 4rem);
+		overflow-y: auto;
+		padding-inline-start: 1rem;
+		border-inline-start: 1px solid var(--vp-c-divider);
+		font-size: 0.8125rem;
+		line-height: 1.4;
+
+		&__title {
+			margin-bottom: 0.5rem;
+			font-weight: 600;
+			color: var(--vp-c-text);
+		}
+
+		&__list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		&__item--l3 {
+			padding-inline-start: 0.75rem;
+		}
+
+		&__link {
+			display: block;
+			padding: 0.2rem 0;
+			color: var(--vp-c-text-mute);
+			text-decoration: none;
+
+			&:hover {
+				color: var(--vp-c-accent);
+			}
+
+			&.active {
+				color: var(--vp-c-accent);
+				font-weight: 600;
+			}
+		}
+	}
 }

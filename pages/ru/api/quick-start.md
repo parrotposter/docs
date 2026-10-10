@@ -1,58 +1,31 @@
-# Начало работы (Quick Start)
+# Начало работы
 
-Это руководство поможет вам быстро познакомиться с API и выполнить первые запросы. Весь процесс займет не больше 5 минут.
+Это руководство поможет за несколько минут получить токен и выполнить первые запросы.
 
-## Шаг 1: Получение токена доступа
+## Шаг 1. Создайте API-токен
 
-Большинство методов API требуют аутентификации. Для этого необходимо получить токен с помощью мутации `login`.
+1. Войдите в [личный кабинет](https://parrotposter.com/app) и откройте **Настройки → API-токены**.
+2. Нажмите **Создать токен**.
+3. Введите название токена (например, «Скрипт публикации»). Если скрипту нужно только читать данные, включите **Только чтение (без мутаций)**.
+4. Скопируйте показанный секрет и сохраните его в надёжном месте.
 
-Выполните следующий запрос к API, указав ваши реальные email и пароль от аккаунта ParrotPoster:
+::: warning Секрет показывается один раз
+Позже его увидеть нельзя. Если секрет потерян — отзовите токен (**Отозвать**) и создайте новый.
+:::
 
-**Запрос:**
+<!-- screenshot: api-tokens-create | Настройки → API-токены: форма «Создать токен» и окно «Сохраните токен» с секретом -->
 
-```graphql
-mutation {
-  login(
-    input: {
-      username: "your-email@example.com"
-      password: "your-password"
-      from: FRONT
-    }
-  ) {
-    token
-  }
-}
-```
+Альтернатива без кабинета — мутация `login` с email и паролем, см. [Аутентификацию](./auth.md).
 
-**Важно:** Поле from всегда должно содержать значение FRONT.
-
-**Ответ:**
-
-```json
-{
-  "data": {
-    "login": {
-      "token": "ваш_уникальный_токен_доступа"
-    }
-  }
-}
-```
-
-Сохраните полученный токен — он понадобится для всех последующих запросов.
-
-## Шаг 2: Использование токена в запросах
-
-Для аутентификации токен необходимо передавать в HTTP-заголовке `Authorization`:
+## Шаг 2. Передавайте токен в заголовке
 
 ```text
-Authorization: Bearer ваш_уникальный_токен_доступа
+Authorization: Bearer ваш_токен
 ```
 
-Все последующие примеры в документации подразумевают, что этот заголовок присутствует в запросе.
+Во всех примерах документации этот заголовок подразумевается.
 
-## Шаг 3: Первый запрос — получаем список аккаунтов
-
-Теперь, когда у нас есть токен, давайте получим список ваших аккаунтов в социальных сетях, которые подключены к ParrotPoster.
+## Шаг 3. Получите список аккаунтов
 
 **Запрос:**
 
@@ -61,8 +34,18 @@ query {
   listSocialAccounts {
     id
     name
+    type
   }
 }
+```
+
+**Через cURL:**
+
+```bash
+curl -X POST https://parrotposter.com/api/graphql \
+  -H "Authorization: Bearer ваш_токен" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "query { listSocialAccounts { id name type } }"}'
 ```
 
 **Ответ:**
@@ -71,68 +54,66 @@ query {
 {
   "data": {
     "listSocialAccounts": [
-      {
-        "id": "account_id_1",
-        "name": "Моя группа ВКонтакте"
-      },
-      {
-        "id": "account_id_2",
-        "name": "Мой Telegram-канал"
-      }
+      { "id": "account_id_1", "name": "Моя группа ВКонтакте", "type": "VK" },
+      { "id": "account_id_2", "name": "Мой Telegram-канал", "type": "TG" }
     ]
   }
 }
 ```
 
-Обратите внимание на поле `id` — именно эти идентификаторы нужно будет использовать при создании постов для указания целевых соцсетей.
+Значения `id` понадобятся при создании постов: их передают в `networks.accounts`.
 
-## Пример для PHP (Yii2)
+## Шаг 4. Создайте пост
 
-Вот пример того же запроса с использованием встроенного `yii\httpclient\Client`:
+```graphql
+mutation {
+  createPost(
+    post: {
+      fields: { text: "Привет, мир! Это пост через API" }
+      networks: { accounts: ["account_id_1"] }
+    }
+  ) {
+    id
+    status
+  }
+}
+```
+
+Пост ставится в очередь на публикацию. Результат по каждому аккаунту смотрите в поле `results` — см. [Получение поста](./posts/get.md).
+
+## Пример на PHP
 
 ```php
 <?php
-use yii\httpclient\Client;
+$token = 'ваш_токен';
 
-$client = new Client();
-$token = 'ваш_уникальный_токен_доступа';
+$ch = curl_init('https://parrotposter.com/api/graphql');
+curl_setopt_array($ch, [
+    CURLOPT_POST => true,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $token,
+        'Content-Type: application/json',
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        'query' => 'query { listSocialAccounts { id name type } }',
+    ]),
+]);
 
-// Выполняем GraphQL-запрос
-$response = $client->createRequest()
-    ->setMethod('POST')
-    ->setUrl('https://parrotposter.com/api/graphql')
-    ->addHeaders([
-        'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'application/json',
-    ])
-    ->setData([
-        'query' => '
-            query {
-                listSocialAccounts {
-                    id
-                    name
-                }
-            }
-        ',
-    ])
-    ->send();
+$response = json_decode(curl_exec($ch), true);
+$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
 
-if ($response->isOk) {
-    $data = $response->data;
-    $accounts = $data['data']['listSocialAccounts'] ?? [];
-    print_r($accounts);
+if (!empty($response['errors'])) {
+    // см. раздел «Ошибки»
+    print_r($response['errors']);
 } else {
-    echo 'Ошибка: ' . $response->statusCode;
+    print_r($response['data']['listSocialAccounts']);
 }
-?>
 ```
 
-Что дальше?
+## Что дальше
 
-Теперь вы умеете:
-
-- Получать токен доступа
-- Передавать его в запросах
-- Получать список доступных аккаунтов
-
-Следующий шаг — научиться создавать посты и управлять публикациями.
+- [Аутентификация](./auth.md) — токены только для чтения, отзыв, альтернативный вход
+- [Создание поста](./posts/create.md) — медиа, расписание, черновики, настройки соцсетей
+- [Ошибки](./errors.md)

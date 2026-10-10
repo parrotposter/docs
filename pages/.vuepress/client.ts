@@ -1,4 +1,6 @@
+import { defineClientConfig } from 'vuepress/client'
 import { definePhotoSwipeConfig } from '@vuepress/plugin-photo-swipe/client'
+import Layout from './layouts/Layout.vue'
 
 definePhotoSwipeConfig({
 	gallery: '#gallery--zoom-transition',
@@ -7,4 +9,6 @@ definePhotoSwipeConfig({
 	tapAction: 'close',
 })
 
-export default {};
+export default defineClientConfig({
+	layouts: { Layout },
+})
