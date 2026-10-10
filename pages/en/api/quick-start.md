@@ -1,68 +1,51 @@
 # Quick start
 
-This guide helps you get familiar with the API and run your first requests in about five minutes.
+This guide helps you get a token and make your first requests in a few minutes.
 
-## Step 1: Get an access token
+## Step 1. Create an API token
 
-Most API operations require authentication. Obtain a token with the `login` mutation.
+1. Sign in to the [web app](https://parrotposter.com/app) and open **Settings → API tokens**.
+2. Click **Create token**.
+3. Enter a token name (for example, "Publishing script"). If the script only needs to read data, turn on **Read-only (disallows mutations)**.
+4. Copy the secret shown and store it somewhere safe.
 
-Run the following request with your real ParrotPoster email and password:
+::: warning The secret is shown only once
+You cannot see it again later. If the secret is lost, **Revoke** the token and create a new one.
+:::
 
-**Request:**
+<!-- screenshot: api-tokens-create | Settings → API tokens: the "Create token" form and the "Save your token" dialog with the secret -->
 
-```graphql
-mutation {
-  login(
-    input: {
-      username: "your-email@example.com"
-      password: "your-password"
-      from: FRONT
-    }
-  ) {
-    token
-  }
-}
-```
+An alternative that does not need the web app is the `login` mutation with your email and password, see [Authentication](./auth.md).
 
-**Important:** The `from` field must always be `FRONT`.
-
-**Response:**
-
-```json
-{
-  "data": {
-    "login": {
-      "token": "your_unique_access_token"
-    }
-  }
-}
-```
-
-Save the token — you will need it for all later requests.
-
-## Step 2: Send the token with each request
-
-Pass the token in the `Authorization` HTTP header:
+## Step 2. Send the token in a header
 
 ```text
-Authorization: Bearer your_unique_access_token
+Authorization: Bearer your_token
 ```
 
-All examples below assume this header is present.
+All examples in this documentation assume this header is present.
 
-## Step 3: First query — list social accounts
+## Step 3. Get the list of accounts
 
-With a token, fetch the social accounts connected to ParrotPoster.
-
-**Request:**
+**Query:**
 
 ```graphql
 query {
   listSocialAccounts {
     id
     name
+    type
   }
 }
+```
+
+**With cURL:**
+
+```bash
+curl -X POST https://parrotposter.com/api/graphql \
+  -H "Authorization: Bearer your_token" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "query { listSocialAccounts { id name type } }"}'
 ```
 
 **Response:**
@@ -71,67 +54,66 @@ query {
 {
   "data": {
     "listSocialAccounts": [
-      {
-        "id": "account_id_1",
-        "name": "My VK community"
-      },
-      {
-        "id": "account_id_2",
-        "name": "My Telegram channel"
-      }
+      { "id": "account_id_1", "name": "My VK group", "type": "VK" },
+      { "id": "account_id_2", "name": "My Telegram channel", "type": "TG" }
     ]
   }
 }
 ```
 
-Note the `id` values — you will use them in `networks.accounts` when creating posts.
+You will need the `id` values when creating posts: pass them in `networks.accounts`.
 
-## PHP example (Yii2)
+## Step 4. Create a post
 
-The same query using `yii\httpclient\Client`:
+```graphql
+mutation {
+  createPost(
+    post: {
+      fields: { text: "Hello, world! This post was sent via the API" }
+      networks: { accounts: ["account_id_1"] }
+    }
+  ) {
+    id
+    status
+  }
+}
+```
+
+The post is queued for publishing. Check the result per account in the `results` field — see [Getting posts](./posts/get.md).
+
+## PHP example
 
 ```php
 <?php
-use yii\httpclient\Client;
+$token = 'your_token';
 
-$client = new Client();
-$token = 'your_unique_access_token';
+$ch = curl_init('https://parrotposter.com/api/graphql');
+curl_setopt_array($ch, [
+    CURLOPT_POST => true,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $token,
+        'Content-Type: application/json',
+    ],
+    CURLOPT_POSTFIELDS => json_encode([
+        'query' => 'query { listSocialAccounts { id name type } }',
+    ]),
+]);
 
-$response = $client->createRequest()
-    ->setMethod('POST')
-    ->setUrl('https://parrotposter.com/api/graphql')
-    ->addHeaders([
-        'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'application/json',
-    ])
-    ->setData([
-        'query' => '
-            query {
-                listSocialAccounts {
-                    id
-                    name
-                }
-            }
-        ',
-    ])
-    ->send();
+$response = json_decode(curl_exec($ch), true);
+$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
 
-if ($response->isOk) {
-    $data = $response->data;
-    $accounts = $data['data']['listSocialAccounts'] ?? [];
-    print_r($accounts);
+if (!empty($response['errors'])) {
+    // see "Errors"
+    print_r($response['errors']);
 } else {
-    echo 'Error: ' . $response->statusCode;
+    print_r($response['data']['listSocialAccounts']);
 }
-?>
 ```
 
-## What’s next?
+## What's next
 
-You now know how to:
-
-- Obtain an access token
-- Pass it in requests
-- List available accounts
-
-Next, learn how to **create posts** and manage publications.
+- [Authentication](./auth.md) — read-only tokens, revoking, alternative sign-in
+- [Creating a post](./posts/create.md) — media, scheduling, drafts, network settings
+- [Errors](./errors.md)

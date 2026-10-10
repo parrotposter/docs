@@ -1,87 +1,16 @@
-import type { SidebarConfig } from '@vuepress/theme-default'
+import { buildSidebar } from './helpers'
 
-export const sidebarRu: SidebarConfig = {
-	'/ru/': [
-		'/ru/',
-		{
-			text: 'Автоматизация',
-			collapsible: true,
-			children: [
-				'/ru/automation/',
-				'/ru/automation/quick-start.md',
-				'/ru/automation/modes.md',
-				'/ru/automation/edit.md',
-				'/ru/automation/troubleshooting.md',
-			]
-		},
-		{
-			text: 'Подключение соцсетей',
-			collapsible: true,
-			children: [
-				'/ru/socials/vk/',
-				'/ru/socials/tg/',
-				'/ru/socials/fb/',
-				'/ru/socials/insta/',
-				'/ru/socials/ok/',
-				'/ru/socials/max/',
-				'/ru/socials/dzen/',
-			]
-		},
-	],
-	'/ru/bitrix/': [
-		'/ru/bitrix/',
-		{
-			text: 'Подключение соцсетей',
-			collapsible: true,
-			children: [
-				'/ru/bitrix/socials/vk/',
-				'/ru/bitrix/socials/tg/',
-				'/ru/bitrix/socials/fb/',
-				'/ru/bitrix/socials/insta/',
-				'/ru/bitrix/socials/ok/',
-				'/ru/bitrix/socials/max/',
-				'/ru/bitrix/socials/dzen/',
-			]
-		},
-	],
-	'/ru/wordpress/': [
-		'/ru/wordpress/',
-		{
-			text: 'Подключение соцсетей',
-			collapsible: true,
-			children: [
-				'/ru/wordpress/socials/vk/',
-				'/ru/wordpress/socials/tg/',
-				'/ru/wordpress/socials/fb/',
-				'/ru/wordpress/socials/insta/',
-				'/ru/wordpress/socials/ok/',
-				'/ru/wordpress/socials/max/',
-				'/ru/wordpress/socials/dzen/',
-			]
-		},
-	],
-	'/ru/api/': [
-		'/ru/api/',
-		'/ru/api/quick-start.md',
-		{
-			text: 'Методы API',
-			collapsible: true,
-			children: [
-				'/ru/api/auth.md',
-				'/ru/api/socials.md',
-				{
-					text: 'Посты',
-					collapsible: true,
-					children: [
-						'/ru/api/posts/index.md',
-						'/ru/api/posts/item.md',
-						'/ru/api/posts/get.md',
-						'/ru/api/posts/create.md',
-						'/ru/api/posts/update.md',
-						'/ru/api/posts/delete.md',
-					]
-				},
-			]
-		},
-	]
-}
+export const sidebarRu = buildSidebar('ru', {
+	start: 'Начало работы',
+	startPlugins: 'Плагины',
+	accounts: 'Аккаунты соцсетей',
+	posts: 'Публикации',
+	automation: 'Автоматизация',
+	automationNew: 'Новая автоматизация',
+	automationClassic: 'Классический автопостинг',
+	billing: 'Тарифы и оплата',
+	assistant: 'ParrotAI и поддержка',
+	api: 'API',
+	apiMethods: 'Методы API',
+	apiPosts: 'Посты',
+})

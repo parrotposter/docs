@@ -1,41 +1,50 @@
 # Introduction
 
-Welcome to the ParrotPoster GraphQL API documentation. This API lets you automate publishing to social networks, manage your accounts, and embed ParrotPoster in your apps and sites.
+The ParrotPoster GraphQL API lets you automate publishing to social networks, manage posts, and list connected accounts from your scripts, websites, and services.
 
 ## Overview
 
-The ParrotPoster API is built on **GraphQL**. You request exactly the fields you need and can combine them in a single query.
+The API is built on **GraphQL**: you request only the fields you need and get them in a single request. The ParrotPoster web app and the WordPress and 1C-Bitrix plugins use the same API.
 
-**Base URL for the API:**
+**API endpoint:**
 
 ```text:no-line-numbers
 https://parrotposter.com/api/graphql
 ```
 
-The API supports two HTTP methods:
-
-- **GET** opens **GraphiQL** (sometimes called a “playground”) in the browser. It is a convenient way to explore the schema and try queries manually.
-- **POST** is for running GraphQL queries and mutations from your code. All production traffic should use POST.
+- **POST request** runs queries (`query`) and mutations (`mutation`). The body is JSON with a `query` field (and `variables` if needed). This is how you should call the API from code.
+- **GET request** opens the interactive **GraphiQL** environment (playground) in the browser: you can see the full schema and try queries by hand.
 
 [Open the playground](https://parrotposter.com/api/graphql)
 
-## API status and backward compatibility
+## What you can do with the API
 
-The API is under active development, but the current version is stable. We aim to keep changes backward compatible:
+- list connected [accounts](./socials.md) and their state;
+- [create](./posts/create.md), [get](./posts/get.md), [update](./posts/update.md), and [delete](./posts/delete.md) posts;
+- publish immediately, on a schedule, or save as a draft;
+- read publishing results and engagement statistics.
 
-- Existing fields and operations will not be removed without notice.
-- Deprecated fields get a `@deprecated` directive with a reason and an alternative; they remain for a transition period.
-- New features are added as new fields and operations without breaking existing behavior.
+Connecting social accounts and configuring automation is done in the [web app](../accounts/index.md): it is not available through the API.
 
-Integrations written against the current API should keep working as we evolve the service.
+## How to start
 
-## What’s next?
+1. In the web app open **Settings → API tokens** and create a token ([details](./auth.md)).
+2. Send the token in the `Authorization: Bearer <token>` header.
+3. Make your first request — see [Quick start](./quick-start.md).
 
-In the following sections you will learn how to:
+## Limits
 
-- **Authenticate** and obtain an access token.
-- **List your social accounts** connected to ParrotPoster.
-- **Create, read, update, and delete posts.**
-- **Handle publishing scenarios** (immediate, scheduled, with media).
+- Publishing and changing posts require an active plan, and the number of posts and accounts is limited by your [plan](../billing/index.md).
+- Requests made with an API token are rate limited: by default 600 requests per minute per token. When exceeded, the server responds with HTTP status `429`. See [Errors](./errors.md).
 
-Go to **[Quick start](./quick-start.md)** to send your first API request.
+## Compatibility
+
+The API schema is extended with new fields and methods. Deprecated fields are marked with the `@deprecated` directive in the schema (visible in the playground), so request only the fields you need and do not rely on the order of fields in a response.
+
+## Contents
+
+- [Quick start](./quick-start.md) — your first request in 5 minutes
+- [Authentication](./auth.md) — API tokens and the `login` mutation
+- [Social accounts](./socials.md) — `listSocialAccounts`
+- [Posts](./posts/index.md) — overview, [Post object](./posts/item.md), [getting and listing](./posts/get.md), [creating](./posts/create.md), [updating](./posts/update.md), [deleting](./posts/delete.md)
+- [Errors](./errors.md) — error format, codes, limits
